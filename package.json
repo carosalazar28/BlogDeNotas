@@ -12,6 +12,8 @@
   "author": "Carolina Salazar <cindy.s.r.28@hotmail.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "4.17.1"
+    "cookie-session": "^1.4.0",
+    "express": "4.17.1",
+    "pug": "^3.0.0"
   }
 }

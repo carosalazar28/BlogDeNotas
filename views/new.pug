@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    form(action='/notes', method='post')
+        section
+            label(for='title') Title
+            input(type="text" id='title' name='title')
+        section
+            label(for="password") Password
+            input(type="password" id='password' name='password')
+        section
+            label(for="body") Texto
+            textarea(name="body", cols="30", rows="10" id='body')
+        section
+            label(for="country") Country
+            select(id='country' name="country")
+                option(value="CO") Colombia
+                option(value="MX") Mexico
+                option(value="PE") Peru
+        section
+            input(type="checkbox" id='terms' name='terms')
+            label(for="terms") Acept Term and Conditions
+        section
+            input(type="radio" id='gender-male' name='gender' value='male')
+            label(for="gender-male") Hombre
+            input(type="radio" id='gender-female' name='gender' value='female' checked='true')
+            label(for="gender-male") Mujer
+        button.btn.btn-primary(type='submit') Submit 
