@@ -1,6 +1,6 @@
-# Blog de notas
+# NotePad
 
-Desarrollado con Node.js, Express y MongoDB
+Deploy with Node.js, Express y MongoDB
 
 ## [](https://github.com/carosalazar28#install)Install (clone)
 
@@ -11,11 +11,11 @@ https://github.com/carosalazar28/BlogDeNotas.git
 
 # [](https://github.com/carosalazar28#usage)Usage
 
-Blog de Notas
+NotePad
 
 # [](https://github.com/carosalazar28#contributing)Contributing
 
-If someone wants to add or improve something, I invite you to collaborate directly in this repository:  [BlogDeNotas](https://github.com/carosalazar28/BlogDeNotass)
+If someone wants to add or improve something, I invite you to collaborate directly in this repository:  [NotePad](https://github.com/carosalazar28/BlogDeNotass)
 
 # [](https://github.com/carosalazar28#license)License
 
