@@ -8,7 +8,7 @@ block content
                 a(href="/notes/new") New Note
             section
                 each note in notes
-                    article
+                    article(class='container-note')
                         a(href="/notes/" + note._id class="note" + (currentNote && currentNote._id.equals(note._id) ? " active" : ""))
                             p(class="note-title")= note.title
                             p(class="note-body")= note.truncateBody()
