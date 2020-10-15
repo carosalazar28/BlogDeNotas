@@ -13,7 +13,7 @@ app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000 
 }))
 app.use(express.urlencoded({extended: true}))
-app.use(express.static('public'))
+app.use('/assets', express.static('assets'))
 
 app.get('/', async (req, res) => {
     const notes = await Note.find()
@@ -41,5 +41,10 @@ app.post('/notes', async (req, res, next)  => {
     
     res.redirect('/')
 })
+
+// app.use((err, req, res, next) => {
+//     res.status(500)
+//     res.send('<h1>Error inesperado</h1><p>${err.message}</p>')
+// })
 
 app.listen(3000, () => console.log('Listening port 3000...'))
