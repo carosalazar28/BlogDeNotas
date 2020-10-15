@@ -1,13 +1,30 @@
-extends layout
+extends index
 
-block content
-    form(action='/notes', method='post')
-        section
-            p 
-                label(for='title') Titulo
-            input(type="text" id='title' name='title')
-        section
-            p
-                label(for="body") Texto
-            textarea(name="body", cols="30", rows="10" id='body' placeholder='Escriba algo') 
-        button.btn.btn-primary(type='submit') Submit 
+block body
+  section(class="note-form-page")
+    form(action="/notes", method="post")
+      div(class="form-group")
+        label(for="title")
+        input(type="text", id="title", name="title", placeholder="Escribe el título", autocomplete="off" autofocus)
+        if errors && errors.title
+          div(class="error")
+            i(class="fas fa-exclamation-triangle error-icon")
+            div(class="error-text")= errors.title.message
+      div
+        input(type="file" name="image")
+      div
+        label(for="body")
+        textarea(id="body", name="body", rows="8", placeholder="Escribe el texto ...")
+
+      section(class="form-actions")
+        a(href="/", class="btn") Cancel
+        button(type="submit", class="btn btn-primary") Create Note
+
+  script.
+    var textarea = document.getElementById("body");
+    var heightLimit = 1000; /* Maximum height: 1000px */
+
+    textarea.oninput = function() {
+      textarea.style.height = ""; /* Reset the height*/
+      textarea.style.height = Math.min(textarea.scrollHeight, heightLimit) + "px";
+    };

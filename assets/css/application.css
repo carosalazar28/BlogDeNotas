@@ -19,8 +19,9 @@ body {
 }
 
 a {
-  color: #47bded;
+  color: #c700ffd4;
   text-decoration: none;
+  margin-left: 5px;
 }
 
 .container {
@@ -161,7 +162,7 @@ a {
 }
 
 .note-form-page #title {
-  color: #47bded;
+  color: #a610c5;
   font-size: 1.4rem;
   margin-bottom: 20px;
 }

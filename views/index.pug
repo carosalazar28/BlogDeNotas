@@ -2,15 +2,15 @@ extends layout
 
 block content
     div(class="container expand")
-        div(class="list expand")
-            div(class="list-header")
-                a(href="/notes/new")
+        aside(class="list expand")
+            section(class="list-header")
                 i(class="far fa-sticky-note")
-                |
-                | New Note
-            each note in notes
-                a(href="/notes/" + note._id class="note" + (currentNote && currentNote._id.equals(note._id) ? " active" : ""))
-                div(class="note-title")= note.title
-                div(class="note-body")= note.body
-        div(class="body")
+                a(href="/notes/new") New Note
+            section
+                each note in notes
+                    article
+                        a(href="/notes/" + note._id class="note" + (currentNote && currentNote._id.equals(note._id) ? " active" : ""))
+                            p(class="note-title")= note.title
+                            p(class="note-body")= note.truncateBody()
+        main(class="body")
             block body

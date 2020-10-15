@@ -23,8 +23,11 @@ app.get('/', async (req, res) => {
     
 })
 
-app.get('/notes/new', (req, res) => {
-    res.render('new')
+app.get('/notes/new', async (req, res) => {
+    const notes = await Note.find()
+    res.render('new', {
+        notes
+    })
 })
 
 app.post('/notes', async (req, res, next)  => {
@@ -40,6 +43,15 @@ app.post('/notes', async (req, res, next)  => {
     }
     
     res.redirect('/')
+})
+
+app.get('/notes/:id', async (req, res) => {
+    const notes = await Note.find()
+    const note = await Note.findById(req.params.id)
+    res.render('show', {
+        notes: notes,
+        currentNote: note,
+    })
 })
 
 // app.use((err, req, res, next) => {
