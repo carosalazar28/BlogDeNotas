@@ -5,8 +5,9 @@ const User = require('./models/User')
 const cookieSession = require('cookie-session')
 const md = require('marked')
 const app = express()
+const PORT = process.env.PORT || 3000
 
-mongoose.connect('mongodb://localhost:27017/notes', { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/notes', { useNewUrlParser: true })
 
 app.set('view engine', 'pug')
 app.set('views', 'views')
@@ -192,4 +193,4 @@ app.get('/logout', requireUser, (req, res) => {
 //     res.send('<h1>Error inesperado</h1><p>${err.message}</p>')
 // })
 
-app.listen(3000, () => console.log('Listening port 3000...'))
+app.listen(PORT, () => console.log(`Listening port ${PORT}...`))
