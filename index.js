@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Note = require('./models/Note')
 const cookieSession = require('cookie-session')
+const md = require('marked')
 const app = express()
 
 mongoose.connect('mongodb://localhost:27017/notes', { useNewUrlParser: true })
@@ -52,6 +53,7 @@ app.get('/notes/:id', async (req, res) => {
     res.render('show', {
         notes: notes,
         currentNote: note,
+        md: md,
     })
 })
 
