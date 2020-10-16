@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Note = require('./models/Note')
+const User = require('./models/User')
 const cookieSession = require('cookie-session')
 const md = require('marked')
 const app = express()
@@ -17,7 +18,30 @@ app.use(cookieSession({
 app.use(express.urlencoded({extended: true}))
 app.use('/assets', express.static('assets'))
 
-app.get('/', async (req, res) => {
+//middleware para revisar si el usuario existe
+const requireUser = (req, res, next) => {
+    if(!res.locals.user) {
+        return res.redirect('/login')
+    }
+    next()
+}
+
+//middleware para autenticación
+app.use(async (req, res, next) => {
+    const userId = req.session.userId
+    if(userId) {
+        const user = await User.findById(userId)
+        if(user) {
+            res.locals.user = user
+        } else {
+            delete req.session.userId
+        }
+    }
+    next()
+})
+
+//ruta para la lista de notas
+app.get('/', requireUser, async (req, res) => {
     const notes = await Note.find()
     res.render('index', {
         notes
@@ -25,14 +49,16 @@ app.get('/', async (req, res) => {
     
 })
 
-app.get('/notes/new', async (req, res) => {
+//ruta para crear una nota
+app.get('/notes/new', requireUser, async (req, res) => {
     const notes = await Note.find()
     res.render('new', {
         notes
     })
 })
 
-app.post('/notes', async (req, res, next)  => {
+//ruta para crear una nota
+app.post('/notes', requireUser, async (req, res, next)  => {
     const data = {
         title: req.body.title,
         body: req.body.body
@@ -47,7 +73,8 @@ app.post('/notes', async (req, res, next)  => {
     res.redirect('/')
 })
 
-app.get('/notes/:id', async (req, res) => {
+//ruta para mostrar una nota
+app.get('/notes/:id', requireUser, async (req, res) => {
     const notes = await Note.find()
     const note = await Note.findById(req.params.id)
     res.render('show', {
@@ -57,7 +84,8 @@ app.get('/notes/:id', async (req, res) => {
     })
 })
 
-app.get('/notes/:id/edit', async (req, res, next) => {
+//ruta para editar una nota
+app.get('/notes/:id/edit', requireUser, async (req, res, next) => {
     try {
         const notes = await Note.find()
         const note = await Note.findById(req.params.id)
@@ -71,7 +99,8 @@ app.get('/notes/:id/edit', async (req, res, next) => {
     }
 })
 
-app.patch('/notes/:id', async (req, res, next) => {
+//metodo para actualizar una nota
+app.patch('/notes/:id', requireUser, async (req, res, next) => {
     const id = req.params.id
     const note = await Note.findById(id)
 
@@ -88,7 +117,8 @@ app.patch('/notes/:id', async (req, res, next) => {
     res.send({})
 })
 
-app.delete('/notes/:id', async (req, res, next) => {
+//ruta para eliminar una nota
+app.delete('/notes/:id', requireUser, async (req, res, next) => {
     try {
         await Note.deleteOne({
         _id: req.params.id
@@ -100,6 +130,54 @@ app.delete('/notes/:id', async (req, res, next) => {
     res.status(204)
     res.send({})
 })
+
+//ruta para registrarse
+app.get('/register', (req, res) => {
+    res.render('register')
+})
+
+//ruta para enviar el registro
+app.post('/register', async (req, res, next) => {
+    try {
+        const user = await User.create({
+            email: req.body.email,
+            password: req.body.password,
+        })
+    }catch(err) {
+        return next(err)
+    }
+    res.redirect('/login')
+})
+
+//ruta para hacer login
+app.get('/login', (req, res) => {
+    res.render('login')
+})
+
+//ruta para enviar el login y conectar con la base de datos
+app.post('/login', async (req, res, next) => {
+    try {
+        const user = await User.authenticate(req.body.email, req.body.password)
+        if(user) {
+            req.session.userId = user._id
+            return res.redirect('/')
+        } else {
+            res.render('login', {error: 'Wrong email or password. try again!'})
+        }
+    }catch(err) {
+        return next(err)
+    }
+
+})
+
+//ruta para hacer logout
+app.get('/logout', requireUser, (req, res) => {
+    res.session = null
+    res.clearCookie('session')
+    res.clearCookie('session.sig')
+    res.redirect('/login')
+})
+
 // app.use((err, req, res, next) => {
 //     res.status(500)
 //     res.send('<h1>Error inesperado</h1><p>${err.message}</p>')

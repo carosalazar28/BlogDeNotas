@@ -13,4 +13,9 @@ block content
                             p(class="note-title")= note.title
                             p(class="note-body")= note.truncateBody()
         main(class="body")
+            header(class="body-header")
+                a(href="/logout") 
+                    i(class="fas fa-sign-out-alt")
+                    |
+                    | Logout
             block body
