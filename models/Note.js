@@ -9,6 +9,7 @@ const NoteSchema = mongoose.Schema({
         type: String, 
         require: true},
     body: String,
+    image: String,
 })
 
 NoteSchema.methods.truncateBody = function() {

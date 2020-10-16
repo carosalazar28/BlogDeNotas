@@ -2,7 +2,7 @@ extends index
 
 block body
   section(class="note-form-page")
-    form(action="/notes", method="post")
+    form(action="/notes", method="post" enctype='multipart/form-data')
       div(class="form-group")
         label(for="title")
         input(type="text", id="title", name="title", placeholder="Escribe el título", autocomplete="off" autofocus)

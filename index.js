@@ -5,6 +5,7 @@ const User = require('./models/User')
 const cookieSession = require('cookie-session')
 const md = require('marked')
 const app = express()
+const multer = require('multer')
 const PORT = process.env.PORT || 3000
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/notes', { useNewUrlParser: true })
@@ -18,6 +19,10 @@ app.use(cookieSession({
 }))
 app.use(express.urlencoded({extended: true}))
 app.use('/assets', express.static('assets'))
+app.use('/uploads', express.static('uploads'))
+
+//middleware para configurar las imagenes
+const upload = multer({dest: 'uploads/'})
 
 //middleware para revisar si el usuario existe
 const requireUser = (req, res, next) => {
@@ -63,11 +68,13 @@ app.get('/notes/new', requireUser, async (req, res) => {
 })
 
 //ruta para crear una nota
-app.post('/notes', requireUser, async (req, res, next)  => {
+app.post('/notes', requireUser, upload.single('image'), async (req, res, next)  => {
+    console.log(req.file)
     const data = {
         title: req.body.title,
         body: req.body.body,
         user: res.locals.user,
+        image: req.file.filename,
     }
     try {
         const note = new Note(data)
