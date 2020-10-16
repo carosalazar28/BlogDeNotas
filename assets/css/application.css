@@ -102,7 +102,7 @@ a {
 }
 
 .body .body-title {
-  color: #47bded;
+  color: #a807c9;
   font-size: 1.5rem;
   margin-bottom: 20px;
 }
@@ -117,7 +117,7 @@ a {
 .body .body-text h4,
 .body .body-text h5,
 .body .body-text h6 {
-  color: #47bded;
+  color: #a807c9;
   margin: 1em 0 0.4em;
 }
 
@@ -194,7 +194,7 @@ a {
 }
 
 .note-form-page .form-actions .btn.btn-primary {
-  background-color: #47bded;
+  background-color: #a807c9;
 }
 
 .note-form-page form .form-group {
@@ -244,7 +244,7 @@ a {
 }
 
 .auth-page .card .card-header {
-  color: #47bded;
+  color: #a807c9;
   font-weight: bold;
   font-size: 1.1rem;
   border-bottom: 2px solid #444;
@@ -313,7 +313,7 @@ a {
 }
 
 .auth-page form .btn.btn-primary {
-  background-color: #47bded;
+  background-color: #a807c9;
 }
 
 .alert {

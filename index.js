@@ -8,6 +8,7 @@ mongoose.connect('mongodb://localhost:27017/notes', { useNewUrlParser: true })
 
 app.set('view engine', 'pug')
 app.set('views', 'views')
+
 app.use(cookieSession({
     secret: 'Un_secreto',
     maxAge: 24 * 60 * 60 * 1000 
@@ -61,7 +62,7 @@ app.get('/notes/:id/edit', async (req, res, next) => {
 
         res.render('edit', {
             notes: notes,
-            currentNote: note
+            currentNote: note,
         })
     } catch(err) {
         return next(err)
@@ -70,7 +71,7 @@ app.get('/notes/:id/edit', async (req, res, next) => {
 
 app.patch('/notes/:id', async (req, res, next) => {
     const id = req.params.id
-    const note = await note.findById(id)
+    const note = await Note.findById(id)
 
     note.title = req.body.title
     note.body = req.body.body
