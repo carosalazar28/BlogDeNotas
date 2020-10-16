@@ -42,7 +42,9 @@ app.use(async (req, res, next) => {
 
 //ruta para la lista de notas
 app.get('/', requireUser, async (req, res) => {
-    const notes = await Note.find()
+    const notes = await Note.find({
+        user: res.locals.user
+    })
     res.render('index', {
         notes
     })
@@ -51,7 +53,9 @@ app.get('/', requireUser, async (req, res) => {
 
 //ruta para crear una nota
 app.get('/notes/new', requireUser, async (req, res) => {
-    const notes = await Note.find()
+    const notes = await Note.find({
+        user: res.locals.user
+    })
     res.render('new', {
         notes
     })
@@ -61,7 +65,8 @@ app.get('/notes/new', requireUser, async (req, res) => {
 app.post('/notes', requireUser, async (req, res, next)  => {
     const data = {
         title: req.body.title,
-        body: req.body.body
+        body: req.body.body,
+        user: res.locals.user,
     }
     try {
         const note = new Note(data)
@@ -75,7 +80,9 @@ app.post('/notes', requireUser, async (req, res, next)  => {
 
 //ruta para mostrar una nota
 app.get('/notes/:id', requireUser, async (req, res) => {
-    const notes = await Note.find()
+    const notes = await Note.find({
+        user: res.locals.user
+    })
     const note = await Note.findById(req.params.id)
     res.render('show', {
         notes: notes,
@@ -87,7 +94,9 @@ app.get('/notes/:id', requireUser, async (req, res) => {
 //ruta para editar una nota
 app.get('/notes/:id/edit', requireUser, async (req, res, next) => {
     try {
-        const notes = await Note.find()
+        const notes = await Note.find({
+            user: res.locals.user
+        })
         const note = await Note.findById(req.params.id)
 
         res.render('edit', {
